@@ -1,4 +1,5 @@
 <template>
+  <Navbar />
   <h1>영화정보</h1>
   <div v-for="(movie, i) in data" :key="i" class="item">
     <figure>
@@ -11,22 +12,25 @@
       <button @:click="increaseLike(i)">좋아요</button>
       <span>{{ movie.like }}</span>
       <p>
-        <button @click="isModal = true">상세보기</button>
+        <button
+          @click="
+            isModal = true;
+            selectedMovie = i;
+          "
+        >
+          상세보기
+        </button>
       </p>
     </div>
-    <div class="modal" v-if="isModal">
-      <div class="inner">
-        <h3>Detail</h3>
-        <p>영화정보</p>
-        <button @click="isModal = false">닫기</button>
-      </div>
-    </div>
   </div>
+  <Modal />
 </template>
 
 <script>
 // 자바스크립트코드
 import data from "./assets/movies";
+import Navbar from "./components/Navbar.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
   name: "App",
@@ -35,12 +39,17 @@ export default {
       isModal: false,
       textRed: "color: black",
       data,
+      selectedMovie: 0,
     };
   },
   methods: {
     increaseLike(i) {
       this.data[i].like += 1;
     },
+  },
+  components: {
+    Navbar: Navbar,
+    Modal: Modal,
   },
 };
 </script>
