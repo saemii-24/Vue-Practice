@@ -1,28 +1,14 @@
 <template>
   <Navbar />
-  <h1>영화정보</h1>
-  <div v-for="(movie, i) in data" :key="i" class="item">
-    <figure>
-      <img :src="`${movie.imgUrl}`" :alt="`${movie.title}`" />
-    </figure>
-    <div class="info">
-      <h3 class="bg-yellow" :style="textRed">{{ movie.title }}</h3>
-      <p>개봉: {{ movie.year }}</p>
-      <p>장르: {{ movie.category }}</p>
-      <button @:click="increaseLike(i)">좋아요</button>
-      <span>{{ movie.like }}</span>
-      <p>
-        <button
-          @click="
-            isModal = true;
-            selectedMovie = i;
-          "
-        >
-          상세보기
-        </button>
-      </p>
-    </div>
-  </div>
+  <Event :text="text" />
+  <Movies
+    :data="data"
+    @openModal="
+      isModal = true;
+      selectedMovie = $event;
+    "
+    @increaseLike="increaseLike($event)"
+  />
   <Modal
     :data="data"
     :isModal="isModal"
@@ -36,6 +22,8 @@
 import data from "./assets/movies";
 import Navbar from "./components/Navbar.vue";
 import Modal from "./components/Modal.vue";
+import Event from "./components/Event.vue";
+import Movies from "./components/Movies.vue";
 
 export default {
   name: "App",
@@ -45,6 +33,7 @@ export default {
       textRed: "color: black",
       data,
       selectedMovie: 0,
+      text: "짱구는 못말려 몰아보기 이벤트 진행중!",
     };
   },
   methods: {
@@ -55,6 +44,8 @@ export default {
   components: {
     Navbar: Navbar,
     Modal: Modal,
+    Movies: Movies,
+    Event: Event,
   },
 };
 </script>
