@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <Event :text="text" />
+  <Event :text="text[eventTextNum]" />
   <SearchBar :data="data_temp" @searchMovie="searchMovie($event)" />
   <p>
     <button @click="showAllMovie">전체보기</button>
@@ -39,7 +39,13 @@ export default {
       data,
       data_temp: [...data],
       selectedMovie: 0,
-      text: "짱구는 못말려 몰아보기 이벤트 진행중!",
+      text: [
+        "짱구는 못말려 몰아보기 이벤트 진행중!",
+        "짱구는 못말려 2025년 신작 결정!",
+        "감동의 어른제국의 역습 다시보기",
+      ],
+      eventTextNum: 0,
+      interval: null,
     };
   },
   methods: {
@@ -66,6 +72,19 @@ export default {
     Movies: Movies,
     Event: Event,
     SearchBar: SearchBar,
+  },
+  mounted() {
+    // console.log("mounted");
+    this.interval = setInterval(() => {
+      if (this.eventTextNum == this.text.length - 1) {
+        this.eventTextNum = 0;
+      } else {
+        this.eventTextNum += 1;
+      }
+    }, 3000);
+  },
+  unmounted() {
+    clearInterval(this.interval);
   },
 };
 </script>
